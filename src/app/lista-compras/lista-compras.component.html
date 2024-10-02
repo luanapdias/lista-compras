@@ -1,1 +1,27 @@
-<p>lista-compras works!</p>
+<div>
+  <h1>Lista de Compras de Supermercado</h1>
+  <input [(ngModel)]="novoItem" placeholder="Adicione um item" />
+  <button (click)="adicionarItem()" [disabled]="novoItem.trim() === ''">Adicionar</button>
+
+  <h3>Itens Não Comprados</h3>
+  <ul>
+    <ng-container *ngFor="let item of items">
+      <li *ngIf="!item.comprado">
+        {{ item.nome }}
+        <button (click)="marcarComoComprado(item)">Marcar como Comprado</button>
+        <button (click)="excluirItem(items.indexOf(item))">🗑️</button>
+      </li>
+    </ng-container>
+  </ul>
+
+  <h3>Itens Comprados</h3>
+  <ul>
+    <ng-container *ngFor="let item of items">
+      <li *ngIf="item.comprado">
+        <span style="text-decoration: line-through;">{{ item.nome }}</span>
+        <button (click)="marcarComoComprado(item)">Desmarcar</button>
+        <button (click)="excluirItem(items.indexOf(item))">🗑️</button>
+      </li>
+    </ng-container>
+  </ul>
+</div>
