@@ -20,23 +20,26 @@ export class ListaComprasComponent {
     }
   }
 
-  marcarComoComprado(item: { nome: string; comprado: boolean; editando: boolean }) {
-    item.comprado = !item.comprado;
-  }
-
-  excluirItem(index: number) {
-    this.items.splice(index, 1);
-  }
-
   editarItem(item: { nome: string; comprado: boolean; editando: boolean }) {
     item.editando = true;
   }
 
   salvarEdicao(item: { nome: string; comprado: boolean; editando: boolean }) {
-    if (item.nome.trim() === '') {
-      alert('O item não pode estar vazio!');
-    } else {
+    // Bloqueia o salvamento se o nome estiver vazio
+    if (item.nome.trim() !== '') {
       item.editando = false;
+    } else {
+      alert('O nome do item não pode estar vazio!');
     }
+  }
+
+  marcarComoComprado(item: { nome: string; comprado: boolean; editando: boolean }) {
+    if (!item.editando && item.nome.trim() !== '') {
+      item.comprado = !item.comprado;
+    }
+  }
+
+  excluirItem(index: number) {
+    this.items.splice(index, 1);
   }
 }
