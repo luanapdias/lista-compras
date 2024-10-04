@@ -11,21 +11,29 @@ import { FormsModule } from '@angular/forms';
 })
 export class ListaComprasComponent {
   novoItem: string = '';
-  items: { nome: string; comprado: boolean }[] = [];
+  items: { nome: string; comprado: boolean; editando: boolean }[] = [];
 
   adicionarItem() {
     if (this.novoItem.trim() !== '') {
-      this.items.push({ nome: this.novoItem, comprado: false });
+      this.items.push({ nome: this.novoItem, comprado: false, editando: false });
       this.novoItem = '';
     }
   }
 
-  marcarComoComprado(item: { nome: string; comprado: boolean }) {
+  marcarComoComprado(item: { nome: string; comprado: boolean; editando: boolean }) {
     item.comprado = !item.comprado;
   }
 
   excluirItem(index: number) {
     this.items.splice(index, 1);
+  }
+
+  editarItem(item: { nome: string; comprado: boolean; editando: boolean }) {
+    item.editando = true;
+  }
+
+  salvarEdicao(item: { nome: string; comprado: boolean; editando: boolean }) {
+    item.editando = false;
   }
 }
 

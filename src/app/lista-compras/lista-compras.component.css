@@ -13,12 +13,19 @@
   }
 
   input[type="text"] {
-    padding: 15px; /
+    width: 100%;
+    padding: 15px;
   }
 
   li {
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  li button {
+    width: 100%;
+    margin: 5px 0;
   }
 
   li .comprado {
@@ -36,6 +43,13 @@
   }
 
   input[type="text"] {
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  li button {
+    width: 100%;
+    padding: 10px;
     font-size: 0.9rem;
   }
 }
