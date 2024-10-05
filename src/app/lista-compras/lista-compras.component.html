@@ -7,13 +7,14 @@
   <ul>
     <ng-container *ngFor="let item of items">
       <li *ngIf="!item.comprado">
+        <!-- Verifica se o item está em edição ou exibe o nome -->
         <span *ngIf="!item.editando">{{ item.nome }}</span>
         <input *ngIf="item.editando" [(ngModel)]="item.nome" placeholder="Editar item" />
 
         <button *ngIf="!item.editando" (click)="editarItem(item)">Editar</button>
-        <button *ngIf="item.editando" (click)="salvarEdicao(item)">Salvar</button>
+        <button *ngIf="item.editando" (click)="salvarEdicao(item)" [disabled]="item.nome.trim() === ''">Salvar</button>
 
-        <button (click)="marcarComoComprado(item)">Marcar como Comprado</button>
+        <button (click)="marcarComoComprado(item)" [disabled]="item.nome.trim() === ''">Marcar como Comprado</button>
         <button (click)="excluirItem(items.indexOf(item))">🗑️</button>
       </li>
     </ng-container>
@@ -27,9 +28,9 @@
         <input *ngIf="item.editando" [(ngModel)]="item.nome" placeholder="Editar item" />
 
         <button *ngIf="!item.editando" (click)="editarItem(item)">Editar</button>
-        <button *ngIf="item.editando" (click)="salvarEdicao(item)">Salvar</button>
+        <button *ngIf="item.editando" (click)="salvarEdicao(item)" [disabled]="item.nome.trim() === ''">Salvar</button>
 
-        <button (click)="marcarComoComprado(item)">Desmarcar</button>
+        <button (click)="marcarComoComprado(item)" [disabled]="item.nome.trim() === ''">Desmarcar</button>
         <button (click)="excluirItem(items.indexOf(item))">🗑️</button>
       </li>
     </ng-container>
