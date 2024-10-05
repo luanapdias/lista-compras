@@ -7,7 +7,6 @@
   <ul>
     <ng-container *ngFor="let item of items">
       <li *ngIf="!item.comprado">
-        <!-- Verifica se o item está em edição ou exibe o nome -->
         <span *ngIf="!item.editando">{{ item.nome }}</span>
         <input *ngIf="item.editando" [(ngModel)]="item.nome" placeholder="Editar item" />
 
