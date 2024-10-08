@@ -25,11 +25,8 @@ export class ListaComprasComponent {
   }
 
   salvarEdicao(item: { nome: string; comprado: boolean; editando: boolean }) {
-    
     if (item.nome.trim() !== '') {
       item.editando = false;
-    } else {
-      alert('O nome do item não pode estar vazio!');
     }
   }
 
