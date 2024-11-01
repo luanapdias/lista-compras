@@ -6,7 +6,7 @@ import { ListaComprasComponent } from './lista-compras/lista-compras.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, ListaComprasComponent],
-  template: `<app-lista-compras></app-lista-compras>`,
+  templateUrl:'./app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
