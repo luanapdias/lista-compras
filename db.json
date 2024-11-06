@@ -9,6 +9,18 @@
       "id": "2",
       "name": "Bob",
       "email": "bob@exemplo.com"
+    },
+    {
+      "id": "auth0|67256a40e83534c0498c59d8",
+      "name": "diasluana083",
+      "email": "diasluana083@gmail.com",
+      "email_verified": false
+    },
+    {
+      "id": "auth0|6726ca1ecd0fb5ff2d4b0b47",
+      "name": "andre10dias",
+      "email": "andre10dias@ymail.com",
+      "email_verified": true
     }
   ],
   "shopping-list": [
@@ -23,6 +35,20 @@
       "title": "Revisar proposta de orçamento",
       "userId": 1,
       "included": false
+    },
+    {
+      "id": "b328",
+      "title": "oi",
+      "userId": "auth0|67256a40e83534c0498c59d8",
+      "included": false,
+      "editing": false
+    },
+    {
+      "id": "7bf0",
+      "title": "oikkk",
+      "userId": "auth0|6726ca1ecd0fb5ff2d4b0b47",
+      "included": false,
+      "editing": false
     }
   ]
 }

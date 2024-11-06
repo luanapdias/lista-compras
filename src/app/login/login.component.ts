@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   isAuthenticated$: Observable<boolean>; // Observable para verificar a autenticação
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(public auth: AuthService, private router: Router) {
     this.isAuthenticated$ = this.auth.isAuthenticated$; // Atribui o observable
   }
 

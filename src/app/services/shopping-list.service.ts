@@ -10,7 +10,7 @@ export class ShoppingListService {
 
   constructor(private http: HttpClient) {}
 
-  getShoppingList(userId: number): Observable<any[]> {
+  getShoppingList(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}?userId=${userId}`);
   }
 

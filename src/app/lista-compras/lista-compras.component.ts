@@ -5,11 +5,19 @@ import { HttpClient } from '@angular/common/http';
 import { ShoppingListService } from '../services/shopping-list.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  email_verified: boolean;
+}
 
 interface Item {
   id?: number;
   title: string;
-  userId: number;
+  userId: string;
   included: boolean;
   editing: boolean;
 }
@@ -25,49 +33,95 @@ export class ListaComprasComponent implements OnInit {
   novoItem: string = '';
   items: Item[] = [];
   isAuthenticated: boolean = false;
+  user?: User;
 
   constructor(
+    private userService: UserService,
     private shoppingService: ShoppingListService,
     private http: HttpClient,
     private auth: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        this.user = {
+          id: user.sub ?? '',
+          name: user.nickname ?? '',
+          email: user.email ?? '',
+          email_verified: user.email_verified ?? false
+        };
+      }
+    });
+  }
 
   ngOnInit() {
-    // Verifica se o usuário está autenticado ao inicializar o componente
     this.auth.isAuthenticated$.subscribe((authenticated) => {
       this.isAuthenticated = authenticated;
       if (!this.isAuthenticated) {
-        // Se não estiver autenticado, redireciona para a página de login
         this.router.navigate(['/login']);
       } else {
-        // Se estiver autenticado, carrega os itens
-        this.obterItems();
+        setTimeout(() => {
+          this.verificarOuSalvarUsuario(this.user);
+        }, 1000);
+      }
+    });
+  }
+
+  // Verifica ou salva o usuário
+  verificarOuSalvarUsuario(user: any) {
+    console.log('Verificando o usuário:', user);
+    this.userService.getUserById(user.id).subscribe({
+      next: (users) => {
+        let usuarioExistente: boolean = false;
+        users.forEach((u: any) => {
+          if (this.user && this.user.id === u.id) {
+            usuarioExistente = true;
+          }
+        });
+
+        if (!usuarioExistente) {
+          // Usuário não encontrado, vamos salvar
+          this.userService.addUser(user).subscribe({
+            next: (res) => {
+              console.log('Usuário salvo com sucesso:', res);
+              this.obterItems();
+            },
+            error: (error) => {
+              console.error('Erro ao salvar o usuário:', error);
+            }
+          });
+        } else {
+          // Usuário já existe
+          console.log('Usuário já cadastrado:', users[0]);
+          this.obterItems();
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao verificar o usuário:', error);
       }
     });
   }
 
   // Método para obter itens da API
   obterItems() {
-    const userId = 1;  // Defina o userId corretamente aqui
-    this.shoppingService.getShoppingList(userId).subscribe({
-      next: (data) => {
-        this.items = data;
-        console.log('Itens carregados com sucesso');
-      },
-      error: (error) => {
-        console.error('Erro ao buscar itens:', error);
-        alert('Erro ao carregar a lista de compras');
-      }
-    });
+    if (this.user) {
+      this.shoppingService.getShoppingList(this.user.id).subscribe({
+        next: (data) => {
+          this.items = data;
+          console.log('Itens carregados com sucesso');
+        },
+        error: (error) => {
+          console.error('Erro ao buscar itens:', error);
+          alert('Erro ao carregar a lista de compras');
+        }
+      });
+    }
   }
 
   // Método para adicionar item
   adicionarItem() {
-    const userId = 1;  // Defina o userId corretamente aqui
-
-    if (this.novoItem && this.novoItem.trim() !== '') {
-      const itemAdded: Item = { title: this.novoItem, userId: userId, included: false, editing: false };
+    if (this.user && this.novoItem && this.novoItem.trim() !== '') {
+      const itemAdded: Item = { title: this.novoItem, userId: this.user.id, included: false, editing: false };
 
       this.shoppingService.addItem(itemAdded).subscribe({
         next: (data) => {
