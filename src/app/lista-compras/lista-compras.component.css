@@ -1,7 +1,7 @@
 .add-item-container {
   display: flex;
-  justify-content: space-between; /* Alinha os itens nas extremidades */
-  align-items: center; /* Alinha verticalmente os itens */
+  justify-content: space-between; 
+  align-items: center;
 }
 
 input[type="text"] {

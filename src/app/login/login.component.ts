@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,41 +9,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private auth: AuthService, private router: Router) {}
+  isAuthenticated$: Observable<boolean>; // Observable para verificar a autenticação
+
+  constructor(private auth: AuthService, private router: Router) {
+    this.isAuthenticated$ = this.auth.isAuthenticated$; // Atribui o observable
+  }
 
   ngOnInit() {
-    // Redireciona para a lista de compras se o usuário estiver autenticado
-    this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
+    // Verifica se o usuário está autenticado e redireciona
+    this.isAuthenticated$.subscribe((isAuthenticated) => {
       if (isAuthenticated) {
-        console.log('Is Authenticated: ', isAuthenticated);
-        this.router.navigate(['/lista-compras']); // Navegar para a lista de compras
-      }
-    });
-
-    // Lida com redirecionamento após login
-    this.auth.appState$.subscribe((appState) => {
-      if (appState && appState.target) {
-        console.log('AppState: ', appState);
-        this.router.navigate([appState.target]);
+        this.router.navigate(['/lista-compras']); // Redireciona para a página lista-compras após login
       }
     });
   }
 
   login(): void {
-    console.log('Login: ', this.router.url);
+    // Executa o login com redirecionamento
     this.auth.loginWithRedirect({
       appState: {
-        target: '/lista-compras'
-        // target: '/login'
+        target: '/lista-compras' // Redireciona para a página lista-compras após login
       }
     });
   }
 
   logout(): void {
+    // Executa o logout e redireciona para a página inicial
     this.auth.logout({
       logoutParams: {
-        returnTo: window.location.origin // Redireciona para a origem após o logout
-      },
+        returnTo: window.location.origin
+      }
     });
   }
 }

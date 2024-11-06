@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ShoppingListService } from '../services/shopping-list.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 
 interface Item {
   id?: number;
@@ -19,15 +21,30 @@ interface Item {
   styleUrls: ['./lista-compras.component.css'],
   imports: [CommonModule, FormsModule],
 })
-export class ListaComprasComponent {
+export class ListaComprasComponent implements OnInit {
   novoItem: string = '';
   items: Item[] = [];
+  isAuthenticated: boolean = false;
 
   constructor(
     private shoppingService: ShoppingListService,
-    private http: HttpClient
-  ) {
-    this.obterItems();
+    private http: HttpClient,
+    private auth: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    // Verifica se o usuário está autenticado ao inicializar o componente
+    this.auth.isAuthenticated$.subscribe((authenticated) => {
+      this.isAuthenticated = authenticated;
+      if (!this.isAuthenticated) {
+        // Se não estiver autenticado, redireciona para a página de login
+        this.router.navigate(['/login']);
+      } else {
+        // Se estiver autenticado, carrega os itens
+        this.obterItems();
+      }
+    });
   }
 
   // Método para obter itens da API
@@ -43,7 +60,7 @@ export class ListaComprasComponent {
         alert('Erro ao carregar a lista de compras');
       }
     });
-  }  
+  }
 
   // Método para adicionar item
   adicionarItem() {
@@ -84,7 +101,7 @@ export class ListaComprasComponent {
         }
       });
     }
-  }   
+  }
 
   // Método para marcar item como comprado
   marcarComoComprado(item: Item) {
@@ -116,5 +133,14 @@ export class ListaComprasComponent {
         }
       });
     }
+  }
+
+  // Método de logout
+  logout(): void {
+    this.auth.logout({
+      logoutParams: {
+        returnTo: window.location.origin
+      }
+    });
   }
 }

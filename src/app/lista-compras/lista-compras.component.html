@@ -1,6 +1,8 @@
 <div class="container">
   <div>
     <h1>Lista de Compras de Supermercado</h1>
+    <!-- Exibe o botão de logout se o usuário estiver autenticado -->
+    <button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
   </div>
 
   <div class="add-item-container">
@@ -20,11 +22,11 @@
       <tbody>
         <tr *ngFor="let item of items; let i = index">
           <td>
-            <input 
-              *ngIf="item.editing" 
-              [(ngModel)]="item.title" 
-              (blur)="salvarEdicao(item)" 
-              placeholder="Descrição do item" 
+            <input
+              *ngIf="item.editing"
+              [(ngModel)]="item.title"
+              (blur)="salvarEdicao(item)"
+              placeholder="Descrição do item"
             />
             <span *ngIf="!item.editing">{{ item.title }}</span>
           </td>

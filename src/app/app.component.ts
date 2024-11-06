@@ -17,23 +17,5 @@ export class AppComponent {
   title = 'lista-compras';
 
   constructor(private router: Router) {}
-  // constructor(public auth: AuthService, private router: Router) {}
 
-  // ngOnInit() {
-  //   // Redireciona para a lista de compras se o usuário estiver autenticado
-  //   this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
-  //     if (isAuthenticated) {
-  //       console.log('Is Authenticated: ', isAuthenticated);
-  //       this.router.navigate(['/lista-compras']); // Navegar para a lista de compras
-  //     }
-  //   });
-
-  //   // Lida com redirecionamento após login
-  //   this.auth.appState$.subscribe((appState) => {
-  //     if (appState && appState.target) {
-  //       console.log('AppState: ', appState);
-  //       this.router.navigate([appState.target]);
-  //     }
-  //   });
-  // }
 }

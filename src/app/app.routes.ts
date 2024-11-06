@@ -5,8 +5,8 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' }, // Redireciona para a tela de login caso a rota esteja vazia
-  { path: 'login', component: LoginComponent }, // Rota para a tela de login
-  { path: 'lista-compras', component: ListaComprasComponent, canActivate: [AuthGuard] }, // Rota para a lista de compras com proteção de AuthGuard
-  { path: '**', component: PageNotFoundComponent }, // Redireciona para a tela de erro 404 caso a rota seja desconhecida
+  { path: '', pathMatch: 'full', redirectTo: 'login' }, // Redireciona para o login
+  { path: 'login', component: LoginComponent }, // Componente de login
+  { path: 'lista-compras', component: ListaComprasComponent, canActivate: [AuthGuard] }, // Protege a lista-compras
+  { path: '**', component: PageNotFoundComponent }, // Página 404
 ];

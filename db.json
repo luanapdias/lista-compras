@@ -16,22 +16,13 @@
       "id": "1",
       "title": "Planejar reunião semanal",
       "userId": 2,
-      "included": false,
-      "editing": false
+      "included": false
     },
     {
-      "id": "a647",
-      "title": "teste final editing",
+      "id": "2",
+      "title": "Revisar proposta de orçamento",
       "userId": 1,
-      "included": true,
-      "editing": false
-    },
-    {
-      "id": "2154",
-      "title": "oi",
-      "userId": 1,
-      "included": false,
-      "editing": false
+      "included": false
     }
   ]
 }
